@@ -1,0 +1,96 @@
+<nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" (nzOnClose)="close()">
+    <ng-container *nzDrawerContent>
+        <div>
+            <input nz-input placeholder="Generating with AI" nzVariant="underlined" />
+        </div>
+
+        <div class="form-container">
+
+            <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+                <h5 nz-typography>Vocabulary</h5>
+
+                <nz-form-item>
+                    <nz-form-control>
+                        <input type="text" nz-input formControlName="word" placeholder="Word" nzVariant="underlined" />
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-control>
+                        <input type="text" nz-input formControlName="translation" placeholder="Translation"
+                            nzVariant="underlined" /> </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-control>
+                        <input type="text" nz-input formControlName="pronunciation" placeholder="Pronunciation"
+                            nzVariant="underlined" /> </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-control>
+                        <textarea formControlName="meaning" nz-input rows="1" placeholder="Meaning"
+                            nzVariant="underlined"></textarea>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-control [nzSm]="12" [nzXs]="24">
+                        <nz-select class="select-left" formControlName="level" nzVariant="underlined"
+                            nzPlaceHolder="Level">
+                            <nz-option nzValue="A1" nzLabel="A1"></nz-option>
+                            <nz-option nzValue="A2" nzLabel="A2"></nz-option>
+                            <nz-option nzValue="B1" nzLabel="B1"></nz-option>
+                            <nz-option nzValue="B2" nzLabel="B2"></nz-option>
+                            <nz-option nzValue="C1" nzLabel="C1"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+
+                    <nz-form-control [nzSm]="12" [nzXs]="24">
+                        <nz-select class="select-right" formControlName="partsOfSpeech" nzVariant="underlined"
+                            nzPlaceHolder="Parts of Speech">
+                            <nz-option nzValue="noun" nzLabel="Noun"></nz-option>
+                            <nz-option nzValue="pronoun" nzLabel="Pronoun"></nz-option>
+                            <nz-option nzValue="verb" nzLabel="Verb"></nz-option>
+                            <nz-option nzValue="adjective" nzLabel="Adjective"></nz-option>
+                            <nz-option nzValue="adverb" nzLabel="Adverb"></nz-option>
+                            <nz-option nzValue="prepostion" nzLabel="Prepostion"></nz-option>
+                            <nz-option nzValue="conjunction" nzLabel="Conjunction"></nz-option>
+                            <nz-option nzValue="interjection" nzLabel="Interjection"></nz-option>
+                        </nz-select> </nz-form-control>
+                </nz-form-item>
+            </form>
+
+            <div>
+                <h5 nz-typography>Example Senteces</h5>
+
+                <div>
+                    @for( s of exampleSentences; track s.id) {
+                    <div class="sentence-element">
+                        <div class="sentence-element-header">
+                        <span>Example {{s.id}}</span> 
+
+                         <a class="sentence-element-delete" nz-button  nzDanger><nz-icon nzType="delete" nzTheme="outline" /></a>
+                        </div>
+                        <input class="sentence-input" type="text" nz-input placeholder="Sentence"
+                            nzVariant="underlined" />
+                        <input class="sentence-input" type="text" nz-input placeholder="Meaning"
+                            nzVariant="underlined" />
+                        <input class="sentence-input" type="text" nz-input placeholder="Pronunciation"
+                            nzVariant="underlined" />
+                    </div>
+
+                    }
+                </div>
+
+                <div>
+                    <button nz-button nzType="dashed" class="add-button" (click)="addSentence($event)">
+                        <nz-icon nzType="plus" />
+                        Add Sentence
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </ng-container>
+</nz-drawer>

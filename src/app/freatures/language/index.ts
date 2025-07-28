@@ -1,0 +1,1 @@
+export * from './pages/vocabulary-list/vocabulary-list-component';

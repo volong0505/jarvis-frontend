@@ -1,9 +1,13 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+    import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Add this import
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [
+    RouterModule
+    ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

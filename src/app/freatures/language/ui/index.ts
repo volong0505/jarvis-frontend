@@ -1,0 +1,1 @@
+export * from './vocabulary-drawer/vocabulary-drawer-component';
