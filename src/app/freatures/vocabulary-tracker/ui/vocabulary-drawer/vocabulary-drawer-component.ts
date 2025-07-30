@@ -8,6 +8,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { VocabularyTrackerService } from '../../data-access/vocabulary-tracker.service';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @Component({
   selector: 'vocabulary-drawer-component',
@@ -20,15 +22,22 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzSelectModule,
     NzButtonModule,
     NzDividerModule,
+    NzSpinModule,
 
     ReactiveFormsModule
   ],
+  providers: [VocabularyTrackerService],
+  standalone: true,
   templateUrl: './vocabulary-drawer-component.html',
   styleUrl: './vocabulary-drawer-component.css'
 })
 export class VocabularyDrawerComponent {
 
   private fb = inject(NonNullableFormBuilder);
+  private service = inject(VocabularyTrackerService);
+  isSpinning = false;
+  visible = true
+
 
   exampleSentences: {
     id: number,
@@ -36,6 +45,17 @@ export class VocabularyDrawerComponent {
     meaning: string| null,
     pronunciation: string | null,
   }[] = [];
+
+  partsOfSpeechOptions = [
+    { label: 'Noun', value: 'noun' },
+    { label: 'Verb', value: 'verb' },
+    { label: 'Adjective', value: 'adjective' },
+    { label: 'Adverb', value: 'adverb' },
+    { label: 'Pronoun', value: 'pronoun' },
+    { label: 'Preposition', value: 'preposition' },
+    { label: 'Conjunction', value: 'conjunction' },
+    { label: 'Interjection', value: 'interjection' }
+  ];
 
   validateForm = this.fb.group({
     word: this.fb.control(''),
@@ -46,7 +66,10 @@ export class VocabularyDrawerComponent {
     partsOfSpeech: this.fb.control(''),
   });
 
-  visible = true
+  askAIForm = this.fb.group({
+    word: this.fb.control(''),
+  });
+
 
   close() {
     this.visible = false
@@ -69,4 +92,36 @@ export class VocabularyDrawerComponent {
     };
     const index = this.exampleSentences.push(control);
   }
+
+  generateWord(word: string) { 
+    this.isSpinning = true;
+    this.service.getWordFromAI(word).subscribe({
+      next: (res) => {
+        this.validateForm.patchValue({
+          word: res.data.word,
+          pronunciation: res.data.pronunciation,
+          translation: res.data.translation,
+          meaning: res.data.meaning,
+          level: res.data.level,
+          partsOfSpeech: res.data.partsOfSpeech,
+        });
+
+        this.exampleSentences = res.data.examples.map((sentence: any, index: number) => ({
+          id: index + 1,
+          sentence: sentence.sentence,
+          meaning: sentence.meaning,
+          pronunciation: sentence.pronunciation
+        }));
+
+            this.isSpinning = false;
+      }
+  })
 }
+
+
+  onAskAi() {
+    const word = this.askAIForm.get('word')?.value as string;
+    this.generateWord(word)
+}
+}
+

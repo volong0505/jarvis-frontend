@@ -1,0 +1,1 @@
+export const ENV_API_URL = 'API_URL';

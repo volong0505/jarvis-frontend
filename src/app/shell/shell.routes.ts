@@ -8,7 +8,7 @@ export const appShellRoutes: Route[] = [
         children: [
             {
                 path: 'vocabulary-tracker',
-                loadComponent: () => import('../freatures/language').then( c => c.VocabularyListComponent)
+                loadComponent: () => import('../freatures/vocabulary-tracker').then( c => c.VocabularyListComponent)
             }
         ]
     }
