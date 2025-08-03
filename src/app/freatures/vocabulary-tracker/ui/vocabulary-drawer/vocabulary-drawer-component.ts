@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
@@ -10,6 +10,8 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { VocabularyTrackerService } from '../../data-access/vocabulary-tracker.service';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { VocabularyTableComponent } from '../vocabulary-table/vocabulary-table-component';
+import { VocabularyTrackerStore } from '../../data-access';
 
 @Component({
   selector: 'vocabulary-drawer-component',
@@ -24,9 +26,10 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
     NzDividerModule,
     NzSpinModule,
 
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
+
   ],
-  providers: [VocabularyTrackerService],
   standalone: true,
   templateUrl: './vocabulary-drawer-component.html',
   styleUrl: './vocabulary-drawer-component.css'
@@ -34,7 +37,8 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 export class VocabularyDrawerComponent {
 
   private fb = inject(NonNullableFormBuilder);
-  private service = inject(VocabularyTrackerService);
+  public readonly store = inject(VocabularyTrackerStore);
+
   isSpinning = false;
   visible = true
 
@@ -42,7 +46,7 @@ export class VocabularyDrawerComponent {
   exampleSentences: {
     id: number,
     sentence: string | null,
-    meaning: string| null,
+    meaning: string | null,
     pronunciation: string | null,
   }[] = [];
 
@@ -76,7 +80,8 @@ export class VocabularyDrawerComponent {
   }
 
   submitForm() {
-
+    console.log('submit', this.validateForm.value);
+    console.log('exampleSentences', this.exampleSentences);
   }
 
   addSentence(e?: MouseEvent): void {
@@ -93,35 +98,36 @@ export class VocabularyDrawerComponent {
     const index = this.exampleSentences.push(control);
   }
 
-  generateWord(word: string) { 
+  async generateWord(word: string) {
     this.isSpinning = true;
-    this.service.getWordFromAI(word).subscribe({
-      next: (res) => {
-        this.validateForm.patchValue({
-          word: res.data.word,
-          pronunciation: res.data.pronunciation,
-          translation: res.data.translation,
-          meaning: res.data.meaning,
-          level: res.data.level,
-          partsOfSpeech: res.data.partsOfSpeech,
-        });
+    const data = await this.store.getWordFromAI(word)
 
-        this.exampleSentences = res.data.examples.map((sentence: any, index: number) => ({
-          id: index + 1,
-          sentence: sentence.sentence,
-          meaning: sentence.meaning,
-          pronunciation: sentence.pronunciation
-        }));
+    if (data) {
+      this.validateForm.patchValue({
+        word: data.word,
+        pronunciation: data.pronunciation,
+        translation: data.translation,
+        meaning: data.meaning,
+        level: data.level,
+        partsOfSpeech: data.partsOfSpeech,
+      });
 
-            this.isSpinning = false;
-      }
-  })
-}
-
+      this.exampleSentences = data.examples.map((sentence: any, index: number) => ({
+        id: index + 1,
+        sentence: sentence.sentence,
+        meaning: sentence.meaning,
+        pronunciation: sentence.pronunciation
+      }));
+    }
+  }
 
   onAskAi() {
     const word = this.askAIForm.get('word')?.value as string;
     this.generateWord(word)
-}
+  }
+
+  removeSentece(id: number) {
+    this.exampleSentences = this.exampleSentences.filter(s => s.id !== id);
+  }
 }
 

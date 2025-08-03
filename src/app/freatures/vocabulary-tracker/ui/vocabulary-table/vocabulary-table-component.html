@@ -1,1 +1,63 @@
-<p>vocabulary-table-component works!</p>
+<nz-table [nzData]="store.vocabularyList()" [nzShowPagination]="false" #nzTable nzTableLayout="fixed">
+    <thead>
+      <tr>
+        <th nzWidth="60px"></th>
+        <th nzWidth="8%">Word</th>
+        <th nzWidth="12%">Pronunciation</th>
+        <th nzWidth="12%">Translation</th>
+        <th nzWidth="20%">Meaning</th>
+        <th nzWidth="5%">Level</th>
+        <th nzWidth="10%">Parts Of Speech</th>
+        <th nzWidth="15%">Category</th>
+        <th nzWidth="20%">Related Words</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (data of store.vocabularyList(); track data) {
+      <tr>
+        <td [nzExpand]="expandSet.has(data._id)" (nzExpandChange)="onExpandChange(data._id, $event)"></td>
+        <td>{{ data.word }}</td>
+        <td>
+          <span>
+            {{ data.ipa}}
+          </span><br>
+          <span>{{ data.pronunciation }}</span>
+        </td>
+        <td>{{ data.translation }}</td>
+
+        <td>{{data.meaning}}</td>
+
+        <td>{{ data.level}}</td>
+        <td>
+          <nz-tag>
+            {{ data.partsOfSpeech}}
+          </nz-tag>
+        </td>
+        <td>
+          <nz-tag>
+            {{ data.category }}
+          </nz-tag>
+        </td>
+        <td>
+          @for (w of data.relatedWords; track w) {
+          <span>
+            <nz-tag>
+              {{ w.word }}
+            </nz-tag> {{w.translation}}</span> <br>
+          }
+        </td>
+      </tr>
+      <tr [nzExpand]="expandSet.has(data._id)">
+
+        @for (s of data.examples; track s) {
+        <div class="example-container">
+          <span class="sentence">- {{s.sentence}}</span> <span> - {{s.meaning}}</span> <br>
+          <span> <span nz-icon nzType="sound"></span>
+            {{s.pronunciation}}</span> <br>
+        </div>
+
+        }
+      </tr>
+      }
+    </tbody>
+  </nz-table>

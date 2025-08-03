@@ -1154,6 +1154,13 @@
     "@napi-rs/nice-win32-ia32-msvc" "1.0.4"
     "@napi-rs/nice-win32-x64-msvc" "1.0.4"
 
+"@ngrx/signals@^20.0.0":
+  version "20.0.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/signals/-/signals-20.0.0.tgz#84aec4ee1bb9f7ef656a7dbbc12d5c44aa895a60"
+  integrity sha512-ALz9dzu4tkL3QtgtkyHqvO14Od3tY/febpsqS6LaUgIxF8jFtmAneo0VgaGB2O7KamMwrwF005lpZjl/zeZghA==
+  dependencies:
+    tslib "^2.3.0"
+
 "@npmcli/agent@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@npmcli/agent/-/agent-3.0.0.tgz#1685b1fbd4a1b7bb4f930cbb68ce801edfe7aa44"

@@ -1,23 +1,24 @@
-<nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="right" (nzOnClose)="close()">
+<nz-drawer [nzClosable]="false" nzPlacement="right" (nzOnClose)="store.closeDrawer()"
+    [nzVisible]="store.drawerIsOpen()">
     <ng-container *nzDrawerContent>
         <div>
             <nz-spin nzTip="Asking..." [nzSpinning]="isSpinning">
 
-            <form [formGroup]="askAIForm" (ngSubmit)="onAskAi()">
-                <nz-form-item>
-                    <nz-form-control>
-                        <input type="text" nz-input formControlName="word" placeholder="Ask AI"
-                            nzVariant="underlined" />
-                    </nz-form-control>
-                </nz-form-item>
-            </form>
-                            </nz-spin>
+                <form [formGroup]="askAIForm" (ngSubmit)="onAskAi()">
+                    <nz-form-item>
+                        <nz-form-control>
+                            <input type="text" nz-input formControlName="word" placeholder="Ask AI"
+                                nzVariant="underlined" />
+                        </nz-form-control>
+                    </nz-form-item>
+                </form>
+            </nz-spin>
 
         </div>
 
         <div>
 
-            <form class="wordForm" nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+            <form class="wordForm" nz-form [formGroup]="validateForm" class="login-form">
                 <h5 nz-typography>Vocabulary</h5>
 
 
@@ -72,17 +73,16 @@
                         <div class="sentence-element-header">
                             <span>Example {{s.id}}</span>
 
-                            <a class="sentence-element-delete" nz-button nzDanger><nz-icon nzType="delete"
+                            <a class="sentence-element-delete" nz-button nzDanger (click)="removeSentece(s.id)"><nz-icon nzType="delete"
                                     nzTheme="outline" /></a>
                         </div>
                         <input class="sentence-input" type="text" nz-input placeholder="Sentence"
-                            nzVariant="underlined" />
-                        <input class="sentence-input" type="text" nz-input placeholder="Meaning"
-                            nzVariant="underlined" />
+                            [(ngModel)]="s.sentence" nzVariant="underlined" />
+                        <input class="sentence-input" type="text" nz-input placeholder="Meaning" nzVariant="underlined"
+                            [(ngModel)]="s.meaning" />
                         <input class="sentence-input" type="text" nz-input placeholder="Pronunciation"
-                            nzVariant="underlined" />
+                            nzVariant="underlined" [(ngModel)]="s.pronunciation" />
                     </div>
-
                     }
                 </div>
 
@@ -93,7 +93,12 @@
                     </button>
                 </div>
             </div>
-
+            <div>
+                <button nz-button nzType="primary" class="submit-button" (click)="submitForm()">
+                    <nz-icon nzType="save" />
+                    Save
+                </button>
+            </div>
         </div>
     </ng-container>
 </nz-drawer>
