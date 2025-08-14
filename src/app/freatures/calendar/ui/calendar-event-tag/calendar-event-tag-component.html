@@ -1,0 +1,7 @@
+
+@if (eventObj.time_start) {
+    <nz-tag [nzColor]="eventObj.color ? eventObj.color : 'blue'">{{eventObj.time_start}} {{eventObj.title}}</nz-tag>
+
+} @else {
+    <nz-tag [nzColor]="eventObj.color ? eventObj.color : 'blue'">{{eventObj.title}}</nz-tag>
+}

@@ -1,0 +1,44 @@
+.container {
+    width: 20em;
+}
+
+nz-form-item {
+    width: 100%;
+}
+
+nz-select {
+    width: 100%;
+}
+
+nz-time-picker {
+    width: 100%;
+}
+
+ng-template {
+    transition: border-color 0ms;
+}
+
+.save-area {
+    padding-left: 1em;
+}
+
+.delete-btn {
+    margin-left: .5em;
+}
+
+.color-select {
+    width: 4em;
+    float: right;
+    text-align: center;
+}
+
+.selected-color {
+    margin-top: .5em;
+}
+
+nz-tag {
+    height: 1.5em;
+    width: 1.5em;
+  
+    margin-left: 0.6em;
+}

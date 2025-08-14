@@ -1,0 +1,18 @@
+.table-ctn {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.table-header {
+    margin-bottom: -10px;
+}
+
+nz-input-group {
+    width: 300px;
+}
+
+button {
+    background-color: rgb(35, 131, 226);
+    border-radius: 6px
+}

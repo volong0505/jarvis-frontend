@@ -1,0 +1,85 @@
+<div class="container">
+    <nz-form [formGroup]="validateForm" class="login-form">
+        <div nz-row>
+            <nz-form-item nz-col nzSpan="18" (mouseenter)="mouseEnter('type')" (mouseleave)="mouseLeave()">
+                <nz-select formControlName="type" [nzBorderless]="currentFormItemEdit != 'type'" [nzShowArrow]="false">
+                    <nz-option nzLabel="Event" nzValue="Event"></nz-option>
+                    <nz-option nzLabel="Meeting" nzValue="Meeting"></nz-option>
+                    <nz-option nzLabel="Holiday" nzValue="Holiday"></nz-option>
+                </nz-select>
+            </nz-form-item>
+
+            <nz-form-item nz-col nzSpan="6" >
+                <nz-select class="color-select" [nzCustomTemplate]="defaultTemplate" formControlName="color"
+                [nzBorderless]="true" [nzShowArrow]="false">
+                    @for(color of colors; track color) {
+                    <nz-option nzCustomContent [nzValue]="color.hex" >
+                        <nz-tag [nzColor]="color.hex"></nz-tag>
+                    </nz-option>
+                    }
+                </nz-select>
+            </nz-form-item>
+        </div>
+
+        <nz-form-item (mouseenter)="mouseEnter('title')" (mouseleave)="mouseLeave()">
+            <nz-form-control>
+                <input type="text" formControlName="title" [nzBorderless]="currentFormItemEdit != 'title'" nz-input
+                    placeholder="Title" />
+            </nz-form-control>
+
+        </nz-form-item>
+        <nz-divider></nz-divider>
+
+        <nz-form-item class="time-picker" (mouseenter)="mouseEnter('time-picker')" (mouseleave)="mouseLeave()">
+            <nz-form-control nz-col nzSpan="10" nzHasFeedback>
+                <nz-time-picker formControlName="time_start" [nzBorderless]="currentFormItemEdit != 'time-picker'"
+                    [nzFormat]='"HH:mm"' nzPlaceHolder="Start" ></nz-time-picker>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item (mouseenter)="mouseEnter('day')" (mouseleave)="mouseLeave()">
+            <nz-form-control>
+                <nz-date-picker formControlName="date" [nzFormat]="'dd-MM-yyyy'"
+                [nzAllowClear]="false" 
+                    [nzBorderless]="currentFormItemEdit != 'day'" nzBorderless nzPlaceHolder="Day"></nz-date-picker>
+            </nz-form-control>
+        </nz-form-item>
+
+
+        <nz-form-item (mouseenter)="mouseEnter('location')" (mouseleave)="mouseLeave()">
+            <nz-form-control>
+                        <input type="text" formControlName="location" [nzBorderless]="currentFormItemEdit != 'location'"
+                        nz-input placeholder="Location" />      
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item (mouseenter)="mouseEnter('links')" (mouseleave)="mouseLeave()">
+            <nz-form-control>
+                <input type="text" formControlName="links" [nzBorderless]="currentFormItemEdit != 'links'" nz-input
+                    placeholder="Links" />
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item (mouseenter)="mouseEnter('documents')" (mouseleave)="mouseLeave()">
+            <nz-form-control>
+                <textarea formControlName="description" nz-input placeholder="Documents"
+                    [nzAutosize]="{ minRows: 2, maxRows: 6 }" [nzBorderless]="currentFormItemEdit != 'documents'"
+                    nz-input></textarea>
+            </nz-form-control>
+        </nz-form-item>
+    </nz-form>
+</div>
+
+<div>
+    <button (click)="submitForm()" nz-button nzType="default">Save</button>
+
+    @if (store.eventObj() != null) {
+    <button nz-button (click)="onDelete()" nzDanger nzType="default" class="delete-btn">
+        <nz-icon nzType="delete" />
+    </button>
+    }
+</div>
+
+<ng-template #defaultTemplate let-selected>
+    <nz-tag class="selected-color" [nzColor]="selected.nzValue"></nz-tag>
+</ng-template>

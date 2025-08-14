@@ -19,6 +19,9 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 })
 export class LayoutComponent {
   sidebarItem = [
+    {
+        label: 'Calendar', path: 'calendar', icon: 'calendar', exact: true, hidden: false
+      },
      {
         label: 'Language', path: 'vocabulary-tracker', icon: 'translation', exact: true, hidden: false,
     }

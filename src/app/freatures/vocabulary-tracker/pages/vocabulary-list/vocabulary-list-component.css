@@ -1,0 +1,18 @@
+.ctn {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+
+
+nz-input-group {
+    width: 300px;
+}
+
+.add-btn {
+    right: 0;
+    margin: 0 1em 1em 0;
+    background-color: rgb(35, 131, 226);
+    border-radius: 6px
+}

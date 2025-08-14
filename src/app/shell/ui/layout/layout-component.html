@@ -6,10 +6,11 @@
       <li nz-menu-item *ngIf="!item.hidden" [routerLink]="item.path">
         <span nz-icon [nzType]="item.icon"></span>
         <span>{{item.label}}</span>
-      </li>
+      </li> 
       }
     </ul>
   </nz-sider>
+
   <nz-layout>
     <nz-header>
       <nz-icon class="trigger" [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
@@ -22,4 +23,5 @@
     </nz-content>
     <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
   </nz-layout>
+  
 </nz-layout>

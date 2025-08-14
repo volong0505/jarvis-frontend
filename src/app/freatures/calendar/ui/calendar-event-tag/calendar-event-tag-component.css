@@ -1,0 +1,5 @@
+nz-tag {
+    width: 15em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }

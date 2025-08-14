@@ -1,4 +1,8 @@
-<nz-drawer [nzClosable]="false" nzPlacement="right" (nzOnClose)="store.closeDrawer()"
+<nz-drawer [nzClosable]="false"
+            nzWidth="500px"
+            nzPlacement="right"
+            [nzKeyboard]="true"
+            (nzOnClose)="store.closeDrawer()"
     [nzVisible]="store.drawerIsOpen()">
     <ng-container *nzDrawerContent>
         <div>
@@ -13,14 +17,18 @@
                     </nz-form-item>
                 </form>
             </nz-spin>
-
         </div>
 
         <div>
-
-            <form class="wordForm" nz-form [formGroup]="validateForm" class="login-form">
+            <div class="form-container">
+            <form  nz-form [formGroup]="validateForm" class="login-form">
                 <h5 nz-typography>Vocabulary</h5>
 
+                <nz-form-item>
+                    <nz-form-control>
+                        <input type="text" nz-input formControlName="word" placeholder="Word"
+                            nzVariant="underlined" /> </nz-form-control>
+                </nz-form-item>
 
                 <nz-form-item>
                     <nz-form-control>
@@ -38,6 +46,12 @@
                     <nz-form-control>
                         <textarea formControlName="meaning" nz-input rows="1" placeholder="Meaning"
                             nzVariant="underlined"></textarea>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-control>
+                        <input type="text" nz-input formControlName="ipa" placeholder="IPA" nzVariant="underlined" />
                     </nz-form-control>
                 </nz-form-item>
 
@@ -62,19 +76,40 @@
 
                         </nz-select> </nz-form-control>
                 </nz-form-item>
+
             </form>
 
-            <div>
+            
+                @for (tag of tags; track tag) {
+                <nz-tag [nzMode]="$index === 0 ? 'default' : 'closeable'" (nzOnClose)="handleClose(tag)">
+                    {{ sliceTagName(tag) }}
+                </nz-tag>
+                }
+
+                @if (!inputVisible) {
+                <nz-tag class="editable-tag" nzNoAnimation (click)="showInput()">
+                    <nz-icon nzType="plus" />
+                    New Tag
+                </nz-tag>
+                } @else {
+                <input #inputElement nz-input nzSize="small" type="text" [(ngModel)]="inputValue" style="width: 78px;"
+                    (blur)="handleInputConfirm()" (keydown.enter)="handleInputConfirm()" />
+                }
+
+            </div>
+
+
+            <div class="sentence-container">
                 <h5 nz-typography>Example Senteces</h5>
 
                 <div>
-                    @for( s of exampleSentences; track s.id) {
+                    @for( s of examples; track s.id) {
                     <div class="sentence-element">
                         <div class="sentence-element-header">
                             <span>Example {{s.id}}</span>
 
-                            <a class="sentence-element-delete" nz-button nzDanger (click)="removeSentece(s.id)"><nz-icon nzType="delete"
-                                    nzTheme="outline" /></a>
+                            <a class="sentence-element-delete" nz-button nzDanger (click)="removeSentece(s.id)"><nz-icon
+                                    nzType="delete" nzTheme="outline" /></a>
                         </div>
                         <input class="sentence-input" type="text" nz-input placeholder="Sentence"
                             [(ngModel)]="s.sentence" nzVariant="underlined" />
@@ -93,6 +128,7 @@
                     </button>
                 </div>
             </div>
+
             <div>
                 <button nz-button nzType="primary" class="submit-button" (click)="submitForm()">
                     <nz-icon nzType="save" />

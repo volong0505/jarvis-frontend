@@ -7,6 +7,12 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { environment } from '../environments/environment.development';
 import { ApiInterceptor } from './core/interceptors/api.interceptors';
 
+import en from '@angular/common/locales/en';
+registerLocaleData(en);
+
+/** config ng-zorro-antd i18n **/
+import { provideNzI18n, en_US } from 'ng-zorro-antd/i18n';
+import { registerLocaleData } from '@angular/common';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -18,7 +24,7 @@ export const appConfig: ApplicationConfig = {
       provide: HTTP_INTERCEPTORS,
       useValue: new ApiInterceptor(environment.baseUrl),
       multi: true
-    }
-
+    },
+    provideNzI18n(en_US)
   ]
 };

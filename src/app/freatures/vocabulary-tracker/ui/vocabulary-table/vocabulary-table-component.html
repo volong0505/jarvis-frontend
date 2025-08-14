@@ -1,15 +1,35 @@
-<nz-table [nzData]="store.vocabularyList()" [nzShowPagination]="false" #nzTable nzTableLayout="fixed">
+<div class="table-ctn">
+  <div nz-flex nzVertical="false" nzJustify="space-between" class="table-header">
+    <div class="flex-item">
+      <form nz-form [formGroup]="searchForm" (ngSubmit)="submitForm()">
+        <nz-form-item>
+          <nz-form-control>
+            <nz-input-group [nzSuffix]="suffixIconSearch">
+              <input formControlName="keyword" type="text" nz-input placeholder="Search" />
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+              <nz-icon nzType="search" />
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </div>
+    <div class="flex-item ">
+      <shared-ui-button-component buttonText="New" (shareClicked)="store.openDrawer()"/>
+    </div>
+  </div>
+
+  <nz-table [nzData]="store.vocabularyList()" [nzShowPagination]="false" #nzTable nzTableLayout="fixed">
     <thead>
       <tr>
-        <th nzWidth="60px"></th>
+        <th nzWidth="2%"></th>
         <th nzWidth="8%">Word</th>
-        <th nzWidth="12%">Pronunciation</th>
         <th nzWidth="12%">Translation</th>
+        <th nzWidth="12%">Pronunciation</th>
         <th nzWidth="20%">Meaning</th>
         <th nzWidth="5%">Level</th>
         <th nzWidth="10%">Parts Of Speech</th>
-        <th nzWidth="15%">Category</th>
-        <th nzWidth="20%">Related Words</th>
+        <th nzWidth="12%"></th>
       </tr>
     </thead>
     <tbody>
@@ -17,13 +37,14 @@
       <tr>
         <td [nzExpand]="expandSet.has(data._id)" (nzExpandChange)="onExpandChange(data._id, $event)"></td>
         <td>{{ data.word }}</td>
+        <td>{{ data.translation }}</td>
+
         <td>
           <span>
             {{ data.ipa}}
           </span><br>
           <span>{{ data.pronunciation }}</span>
         </td>
-        <td>{{ data.translation }}</td>
 
         <td>{{data.meaning}}</td>
 
@@ -34,16 +55,10 @@
           </nz-tag>
         </td>
         <td>
+          @for (tag of data.tags; track tag) {
           <nz-tag>
-            {{ data.category }}
+            {{ tag}}
           </nz-tag>
-        </td>
-        <td>
-          @for (w of data.relatedWords; track w) {
-          <span>
-            <nz-tag>
-              {{ w.word }}
-            </nz-tag> {{w.translation}}</span> <br>
           }
         </td>
       </tr>
@@ -61,3 +76,4 @@
       }
     </tbody>
   </nz-table>
+</div>

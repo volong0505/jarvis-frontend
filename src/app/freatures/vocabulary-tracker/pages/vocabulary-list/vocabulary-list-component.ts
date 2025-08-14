@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { VocabularyDrawerComponent, VocabularyTableComponent } from '../../ui';
+import { NonNullableFormBuilder } from '@angular/forms';
 import { VocabularyTrackerStore } from '../../data-access';
-import { NzButtonModule } from 'ng-zorro-antd/button';
+import { VocabularyDrawerComponent, VocabularyTableComponent } from '../../ui';
 
 @Component({
   selector: 'app-vocabulary-list-component',
@@ -9,11 +9,10 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     VocabularyDrawerComponent,
     VocabularyTableComponent,
 
-    NzButtonModule
   ],
   templateUrl: './vocabulary-list-component.html',
   styleUrl: './vocabulary-list-component.css'
 })
 export class VocabularyListComponent {
-  public readonly store = inject(VocabularyTrackerStore);
+ 
 }

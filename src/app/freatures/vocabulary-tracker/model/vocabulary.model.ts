@@ -1,13 +1,9 @@
 
-export class Example {
+export class SentenceExample {
+  id!: number;
   sentence!: string;
   pronunciation?: string;
   meaning!: string;
-}
-
-export class RelatedWords {
-  word!: string;
-  translation!: string;
 }
 
 export class VocabularyModel {
@@ -20,9 +16,8 @@ export class VocabularyModel {
   pronunciation?: string;
   level?: string;
   partsOfSpeech?: string;
-  category?: string;
-  relatedWords!: RelatedWords[]
-  examples!: Example[];
+  tags?: string[];
+  examples!: SentenceExample[];
   creationDate?: Date;
   latestReviewDate?: Date;
 }

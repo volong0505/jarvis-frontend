@@ -1,0 +1,48 @@
+.container {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.events {
+  list-style: none;
+}
+
+.events .ant-badge-status {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  text-overflow: ellipsis;
+  font-size: 12px;
+}
+
+.lunar-day {
+  text-align: right;
+}
+
+.event-list {
+  margin-left: -2em;
+  margin-top: -.5em;
+  padding-bottom: 5px;
+}
+
+.custom-header {
+  padding: 8px;
+
+}
+
+.custom-header-extra {
+  text-align: right;
+  /* padding-right: 1em; */
+
+}
+
+.create-button {
+  width: 70px;
+  background-color: rgb(35, 131, 226);
+  border-radius: 6px
+}
+
+.popover {
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}

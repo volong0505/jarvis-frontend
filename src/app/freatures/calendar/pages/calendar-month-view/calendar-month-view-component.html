@@ -1,0 +1,52 @@
+<div class="container">
+<nz-calendar (nzSelectChange)="selectChange($event)" [nzCustomHeader]="customHeader">
+
+    <ul *nzDateCell="let date" class="events">
+
+        <li class="date-header">
+
+            <div class="lunar-day">
+                <p>{{this.getLunarDay(date)}}</p>
+            </div>
+        </li>
+
+        @for (event of store.events(); track event._id) {
+        @if (check(event.date, date)) {
+        <li class="event-list">
+            <a (click)="store.selectEvent(event._id)" nz-popover [nzPopoverContent]="updateTemplate"
+                nzPopoverPlacement="bottomRight" nzPopoverTrigger="click">
+                <calendar-event-tag [eventObj]="event" />
+            </a>
+        </li>
+        }
+        }
+    </ul>
+
+</nz-calendar>
+
+<ng-template #customHeader>
+    <div class="custom-header" nz-row>
+        <div nz-col nzSpan="12" class="custom-header-date-text">
+            <h3>{{store.currentDate() | date}}</h3>
+        </div>
+
+        <div nz-col nzSpan="12" class="custom-header-extra">
+            <button nzType="primary" class="create-button" nz-button nz-popover
+                [(nzPopoverVisible)]="createPopoverVisible" [nzPopoverContent]="createTemplate"
+                nzPopoverPlacement="bottomRight" nzPopoverTrigger="click"> New
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #createTemplate class="popover">
+    <calendar-event-popover (closePopover)="closePopover()" />
+</ng-template>
+
+<ng-template #updateTemplate class="popover">
+    <calendar-event-popover />
+</ng-template>
+
+</div>
+
+

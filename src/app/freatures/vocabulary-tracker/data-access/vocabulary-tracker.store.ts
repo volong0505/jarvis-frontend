@@ -3,6 +3,7 @@ import { patchState, signalStore, withHooks, withMethods, withState } from '@ngr
 import { lastValueFrom } from 'rxjs';
 import { VocabularyTrackerService } from './vocabulary-tracker.service';
 import { VocabularyModel } from '../model/vocabulary.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 export interface VocabularyTrackerModel {
@@ -23,10 +24,10 @@ export const VocabularyTrackerStore = signalStore(
        { providedIn: 'root' },
     withState(initialState),
     withMethods((store, service = inject(VocabularyTrackerService)) => ({
-        async loadVocabularyList(languageCode: string) {
+        async loadVocabularyList(params: { keyword: string }) {
             patchState(store, { isLoading: true, errorMessage: null });
             try {
-                const res$ = service.getVocabularyList({ languageCode })
+                const res$ = service.getVocabularyList(params);
                 const res = await lastValueFrom(res$);
                 patchState(store, { vocabularyList: res.data, isLoading: false });
             } catch (error) {
@@ -40,8 +41,28 @@ export const VocabularyTrackerStore = signalStore(
                 const res = await lastValueFrom(res$);
                 return res.data;
             } catch (error) {
-                patchState(store, { isLoading: false, errorMessage: 'Failed to fetch word details' });
+                const errorMessage = typeof error === 'object' && error !== null && 'message' in error
+                    ? String((error as { message?: unknown }).message)
+                    : 'Failed to fetch word from AI';
+                console.log('Error fetching word from AI:', errorMessage);
+                patchState(store, { isLoading: false, errorMessage });
                 throw error;
+            } finally {
+                patchState(store, { isLoading: false });
+            }
+        },
+        async createVocabulary(request: any) {
+            patchState(store, { isLoading: true, errorMessage: null });
+            try {
+                const res$ = service.createVocabulary(request);
+                await lastValueFrom(res$);
+                const params = {
+                    keyword: request.keyword || '',
+                };
+                this.loadVocabularyList(params); // Reload vocabulary list after creation
+                this.closeDrawer();
+            } catch (error) {
+                patchState(store, { isLoading: false, errorMessage: 'Failed to create vocabulary' });
             } finally {
                 patchState(store, { isLoading: false });
             }
@@ -56,7 +77,7 @@ export const VocabularyTrackerStore = signalStore(
     ),
     withHooks({
         onInit(store) {
-            store.loadVocabularyList('en')
+            store.loadVocabularyList({ keyword: '' }); // Load initial vocabulary list
         }
     }
     )
