@@ -15,7 +15,7 @@ export class VocabularyModel {
   ipa!: string
   pronunciation?: string;
   level?: string;
-  partsOfSpeech?: string;
+  partsOfSpeech?: string[];
   tags?: string[];
   examples!: SentenceExample[];
   creationDate?: Date;

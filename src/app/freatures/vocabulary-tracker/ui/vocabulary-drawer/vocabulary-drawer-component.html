@@ -68,7 +68,7 @@
                     </nz-form-control>
 
                     <nz-form-control [nzSm]="12" [nzXs]="24">
-                        <nz-select class="select-right" formControlName="partsOfSpeech" nzVariant="underlined"
+                        <nz-select nzMode="tags" class="select-right" formControlName="partsOfSpeech" nzVariant="underlined"
                             nzPlaceHolder="Parts of Speech">
                             @for( part of partsOfSpeechOptions; track part.value) {
                             <nz-option [nzValue]="part.value" [nzLabel]="part.label"></nz-option>

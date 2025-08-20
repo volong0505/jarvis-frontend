@@ -60,7 +60,8 @@ export class VocabularyDrawerComponent implements OnDestroy {
     { label: 'Pronoun', value: 'pronoun' },
     { label: 'Preposition', value: 'preposition' },
     { label: 'Conjunction', value: 'conjunction' },
-    { label: 'Interjection', value: 'interjection' }
+    { label: 'Interjection', value: 'interjection' },
+    { label: 'Phrasal verb', value: 'phrasal verb'}
   ];
 
   validateForm = this.fb.group({
@@ -69,7 +70,7 @@ export class VocabularyDrawerComponent implements OnDestroy {
     translation: this.fb.control(''),
     meaning: this.fb.control(''),
     level: this.fb.control(''),
-    partsOfSpeech: this.fb.control(''),
+    partsOfSpeech: this.fb.control([]),
     ipa: this.fb.control(''),
   });
 

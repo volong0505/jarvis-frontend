@@ -5,5 +5,6 @@ export class FindAllByLanguageRequest {
 }
 
 export class FindAllByLanguageResponse {
-    data!: VocabularyModel[]
+    data!: VocabularyModel[];
+    total!: number
 }

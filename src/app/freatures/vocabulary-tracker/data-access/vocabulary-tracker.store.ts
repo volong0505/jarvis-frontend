@@ -8,6 +8,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 export interface VocabularyTrackerModel {
     vocabularyList: VocabularyModel[];
+    total: number;
     isLoading: boolean;
     errorMessage: string | null;
     drawerIsOpen: boolean;
@@ -15,6 +16,7 @@ export interface VocabularyTrackerModel {
 
 const initialState: VocabularyTrackerModel = {
     vocabularyList: [],
+    total: 0,
     isLoading: false,
     errorMessage: null,
     drawerIsOpen: false
@@ -29,7 +31,7 @@ export const VocabularyTrackerStore = signalStore(
             try {
                 const res$ = service.getVocabularyList(params);
                 const res = await lastValueFrom(res$);
-                patchState(store, { vocabularyList: res.data, isLoading: false });
+                patchState(store, { vocabularyList: res.data, total: res.total, isLoading: false});
             } catch (error) {
                 patchState(store, { isLoading: false, errorMessage: 'Failed to load vocabulary list' });
             }

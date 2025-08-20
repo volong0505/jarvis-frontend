@@ -1,6 +1,7 @@
 <div class="table-ctn">
   <div nz-flex nzVertical="false" nzJustify="space-between" class="table-header">
     <div class="flex-item">
+
       <form nz-form [formGroup]="searchForm" (ngSubmit)="submitForm()">
         <nz-form-item>
           <nz-form-control>
@@ -49,10 +50,12 @@
         <td>{{data.meaning}}</td>
 
         <td>{{ data.level}}</td>
-        <td>
+         <td>
+          @for (p of data.partsOfSpeech; track p) {
           <nz-tag>
-            {{ data.partsOfSpeech}}
+            {{ p}}
           </nz-tag>
+          }
         </td>
         <td>
           @for (tag of data.tags; track tag) {

@@ -14,7 +14,7 @@ export class CreateVocabularyRequest {
   meaning?: string;
   ipa?: string;
   level?: string;
-  partsOfSpeech?: string;
+  partsOfSpeech?: string[];
   tags?: string[];
   examples!: ExampleDto[];
 }
